@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Geronimo Client 1.0.0</title>
+<link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="dist/css/geronimo.css" rel="stylesheet" />
+<script src="/socket.io/socket.io.js"></script>
+<script src="node_modules/jquery/dist/jquery.min.js"></script>
+<script src="node_modules/flot/jquery.flot.js"></script>
+<script>
+	var socket = io();
+	socket.on('data', function(data) {
+	 $('#cdate').html(new Date($.now()));
+	 $('#temp').html(`${ data.temp } &#186C`);
+	 $('#hpa').html(`${ data.hpa } hPa`);
+	 $('#mmhg').html(`${ data.mmhg } mmHg`);
+	 $('#address').html(data.address);
+	 $('#rssi').html(`RSSI: ${ data.rssi } dBm`);
+	 $('#batt').html(data.batt);
+	 $('#h').html(`wysokość npm: ${ data.h } m`);
+	});
+
+        $('#temp-plot').on('shown.bs.collapse', function(e) {
+           $.plot($('#temp-plot'), [ [[0, 0], [1, 1]] ], { yaxis: { max: 1 } });
+	});
+
+</script>
+</head>
+<body>
+<nav class="navbar navbar-default navbar-fixed-top">
+ <div class="container-fluid">
+  <div class="navbar-header">
+   <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-2">
+	<span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+	<span class="icon-bar"></span>
+   </button>
+   <a class="navbar-brand" href="#">Geronimo</a>
+  </div>
+ <div class="collapse navbar-collapse" id="bs-2">
+  <ul class="nav navbar-nav navbar-right">
+   <li><a href="#">Czujniki</a></li>
+   <li><a href="#">Stacja Pogodowa</a></li>
+   <li><a href="#">Ciepła Woda Użytkowa (CWU)</a></li>
+  </ul>
+ </div>
+ </div>
+</nav> 
+<div class="panel panel-default">
+<div class="panel-heading">
+ <h4>Stacja Pogodowa</h4> 
+ <h6>Gdańsk, ul.Niedziałkowskiego 17</h6>
+ <h6 id="h"/>
+</div>
+<div class="panel-body">
+<div class="panel panel-info">
+ <div class="panel-heading">Temperatura zewnętrzna</div>
+ <div class="panel-body">
+  
+  <div class="flex-container">
+   <div class="flex-item"> 	
+    <h4 id="temp" />
+   </div>
+   <div class="fixed">
+    <button id="btn-temp-stats" type="button" data-toggle="collapse" data-target="#temp-plot" class="btn btn-link">
+     <span class="glyphicon glyphicon-stats"></span>
+    </button>
+   </div>
+  </div>
+  
+  <div id="temp-plot" class="row collapse" style="width:300px;height:150px">
+	
+  </div> 
+  
+ </div> 
+</div>
+
+<div class="panel panel-info">
+ <div class="panel-heading">Ciśnienie atmosferyczne</div>
+ <div class="panel-body">
+	<h4 id="hpa" />
+        <h6 id="mmhg" />
+ </div>
+</div>
+</div>
+<div class="panel-footer">
+	<h6 id="cdate" />
+</div>
+</div>
+<p id="rssi" />
+<p id="address" />
+<p id="batt" />
+<script src="node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
