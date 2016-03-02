@@ -13,9 +13,7 @@
 	function dataBuilder(r, type) {
 	  var p = [];
 	  r.forEach(function(el, ix, arr) {
-       var _date = (new Date(el._id.ts*1000));
-       _date.setSeconds(el.data.time);    
-	   p.push([ _date, (type == "temp" ? el.data.temp : el.data.hpa) ]);
+	   p.push([ (new Date(el._id.ts*1000)).setSeconds(el.data.time), (type == "temp" ? el.data.temp : el.data.hpa) ]);
           });
        return p;	
 	}
@@ -30,12 +28,12 @@
 	 $('#hpa').html(`${ r[0].data.hpa } hPa`);
 	 $('#mmhg').html(`${ r[0].data.mmhg } mmHg`);
 
-         var options = { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"};
+     var options1 = { year: "numeric", month: "numeric", day: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit"};
 
 	 var latest = (new Date(r[0]._id.ts*1000));
 	 latest.setSeconds(r[0].data.time);
-	 $('#temp-footer').html(latest.toLocaleDateString("pl-PL", options));
-	 $('#press-footer').html(latest.toLocaleDateString("pl-PL", options));
+	 $('#temp-footer').html(latest.toLocaleDateString("pl-PL", options1));
+	 $('#press-footer').html(latest.toLocaleDateString("pl-PL", options1));
 
 //	 $('#rssi').html(`RSSI: ${ data.rssi } dBm`);
 //	 $('#batt').html((r[0]._id.ts + r[0].data.time)*1000);
