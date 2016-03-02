@@ -12,11 +12,12 @@
 <script>
 	function dataBuilder(r, type) {
 	  var p = [];
-	  r.forEach(function(el, ix, arr) { 
-	   p.push([ (new Date(el._id.ts*1000)).setSeconds(el.data.time) , (type == "temp" ? el.data.temp : el.data.hpa) ]);
+	  r.forEach(function(el, ix, arr) {
+       var _date = (new Date(el._id.ts*1000));
+       _date.setSeconds(el.data.time);    
+	   p.push([ _date, (type == "temp" ? el.data.temp : el.data.hpa) ]);
           });
-	             
-          return p;	
+       return p;	
 	}
  
  	var isTempPlot, isPressPlot = false;
